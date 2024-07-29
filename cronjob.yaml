@@ -1,0 +1,32 @@
+# cronjob.yaml
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: etl-weather-cron
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: etl-weather-cron
+            image: etlweather.azurecr.io/weather-etl-app:latest
+            env:
+            - name: ConnectionStrings__AzureStorageConnection
+              valueFrom:
+                secretKeyRef:
+                  name: azure-storage-secret
+                  key: connection-string
+            - name: BlobContainerName
+              value: weather-data
+          restartPolicy: OnFailure
+---
+# secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: azure-storage-secret
+type: Opaque
+data:
+  connection-string: your-base64-encoded-azure-account-storage-connection

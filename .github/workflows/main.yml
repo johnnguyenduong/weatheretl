@@ -1,0 +1,56 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: 'Login to Azure'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - name: 'Build and push image'
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    - run: |
+        docker build ./WeatherETL -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/weather-etl-app:${{ github.sha }}
+        docker tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/weather-etl-app:${{ github.sha }} ${{ secrets.REGISTRY_LOGIN_SERVER }}/weather-etl-app:latest
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/weather-etl-app:${{ github.sha }}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/weather-etl-app:latest
+    
+    - name: 'Deploy to AKS'
+      uses: azure/k8s-deploy@v1
+      with:
+        manifests: |
+          cronjob.yaml
+        images: |
+          ${{ secrets.REGISTRY_LOGIN_SERVER }}/weather-etl-app:${{ github.sha }}
+        namespace: default

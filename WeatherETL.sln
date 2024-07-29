@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35122.118
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherETL", "WeatherETL\WeatherETL.csproj", "{9CC16DD6-BCCD-4DEA-AA55-F181F8D36A01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherEtl.Test", "WeatherEtl.Test\WeatherEtl.Test.csproj", "{BFA54EBA-40B6-445D-95C6-6219619BFEEB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9CC16DD6-BCCD-4DEA-AA55-F181F8D36A01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CC16DD6-BCCD-4DEA-AA55-F181F8D36A01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CC16DD6-BCCD-4DEA-AA55-F181F8D36A01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CC16DD6-BCCD-4DEA-AA55-F181F8D36A01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFA54EBA-40B6-445D-95C6-6219619BFEEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFA54EBA-40B6-445D-95C6-6219619BFEEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFA54EBA-40B6-445D-95C6-6219619BFEEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFA54EBA-40B6-445D-95C6-6219619BFEEB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {358A6A0D-2992-4AE3-BF77-A0D98A41CE68}
+	EndGlobalSection
+EndGlobal
